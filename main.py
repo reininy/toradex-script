@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
+import time
 
 
 
@@ -33,7 +34,12 @@ def DeveloperBot(titles):
             print(title + ": OK")
         else:
             print(title + ": No")
+            content.send_keys(title + "\n")
 
+    driver.find_element_by_class_name("fa-save").click()
+
+    time.sleep(10)
+    
 
 if __name__ == "__main__":
     titles = TorizonNewArticles()
