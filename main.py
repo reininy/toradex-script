@@ -5,11 +5,12 @@ import json
 import time
 import warnings
 from selenium.webdriver.common.keys import Keys
+import os
 
 class bot():
     warnings.filterwarnings('ignore')
     options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
+    options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
     driver = webdriver.Chrome('./chromedriver', chrome_options=options)
     file =  open('settings.json', 'r')
@@ -56,18 +57,39 @@ class bot():
         return articles_ids
 
     def DeveloperBot(self, articles_ids):
-        self.driver.get("https://developer1.toradex.com/acp/content/post/update?id=103348")
+        self.driver.get("https://developer1.toradex.com/acp/content/post/update?id=103348") ## torizon documentation page
         content = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
         html = content.get_attribute("innerHTML")
-        
+        articles_str = ""
         for id in articles_ids:
             if id in html:
                 print(id + bcolors.OKGREEN + ": OK" + bcolors.ENDC)
+                articles_str+= id + ": OK" + "\n"
             else:
-                print(id + bcolors.WARNING + ": No" + bcolors.ENDC)
-            
-        time.sleep(10)
-        self.driver.close()
+                self.driver.get("https://developer1.toradex.com/acp/content/post/update?id="+ str(id))
+                title = self.driver.find_element_by_tag_name("small")
+                print(id + bcolors.WARNING + " " + title.text + ": No" + bcolors.ENDC)
+                articles_str+= id + " " + title.text + " :No" + "\n"
+        
+        time.sleep(5)
+        opt = True
+        while(opt):
+            opt = str(input("Do you want to save logs? y/n:"))
+            if opt == "y":
+                file_name = input("Name for the log: ")
+                f = open("logs/"+file_name+".txt", "w")
+                f.write(articles_str)
+                f.close()
+                print(file_name + " created!")
+                os.system('tree -t')
+                opt = None
+                self.driver.close()
+            elif opt == 'n':
+                opt =  None
+                print("bye")
+                self.driver.close()
+            else:
+                print("wrong option")
     
 
 if __name__ == "__main__":
