@@ -11,10 +11,10 @@ import os
 class bot():
     warnings.filterwarnings('ignore')
     options = webdriver.ChromeOptions()
-    options.add_argument('headless')
+    #options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
-    driver = webdriver.Chrome('./chromedriver', chrome_options=options)
-    file =  open('settings.json', 'r')
+    driver = webdriver.Chrome('/home/julio/projects/toradex-script/chromedriver', chrome_options=options)
+    file =  open('/home/julio/projects/toradex-script/settings.json', 'r')
     data = json.load(file)
     final_data = data['settings']
 
@@ -113,7 +113,7 @@ class bot():
         return articles_ids
 
     def documentation_update(self, articles_ids):
-        self.driver.get("https://developer1.toradex.com/acp/content/post/update?id=103348") ## torizon documentation page
+        self.driver.get("https://developer1.toradex.com/acp/content/post/update?id=103348&rev=93") ## torizon documentation page
         content = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
         html = content.get_attribute("innerHTML")
         articles_str = ""
@@ -133,11 +133,11 @@ class bot():
             opt = str(input("Do you want to save logs? y/n:"))
             if opt == "y":
                 file_name = input("Name for the log: ")
-                f = open("logs/"+file_name+".txt", "w")
+                f = open("/home/julio/projects/toradex-script/logs/"+file_name+".txt", "w")
                 f.write(articles_str)
                 f.close()
                 print(file_name + " created!")
-                os.system('tree -t')
+                os.system('tree -t /home/julio/projects/toradex-script/logs/')
                 opt = None
                 self.driver.close()
             elif opt == 'n':
@@ -151,8 +151,8 @@ class bot():
 if __name__ == "__main__":
     bot = bot()
     titles, links = bot.torizon_articles()
-    #articles_ids = bot.find_article(titles)
-    #bot.DocumentationUpdate(articles_ids)
+    articles_ids = bot.find_article(titles)
+    bot.DocumentationUpdate(articles_ids)
 
 
 
