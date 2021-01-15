@@ -1,0 +1,101 @@
+103163: OK
+103158: OK
+101419 ADC (Linux) :No
+103103: OK
+103353: OK
+103343: OK
+102417: OK
+101402 Build a Reference Image with Yocto Project :No
+103344: OK
+103099: OK
+102354 CSI Camera Module 5MP OV5640 (Linux) :No
+103405: OK
+101950 Camera on Toradex Computer on Modules :No
+101396 CAN (Linux) :No
+103578: OK
+103606 Cellular Modem on Toradex Computer on Modules :No
+102324 Codesys Software PLC Solution :No
+103154: OK
+102342 Crank Storyboard :No
+102942 Custom meta layers, recipes and images in Yocto Project (hello-world examples) :No
+101392 Configuring Serial Port Debug Console (Linux/U-Boot) :No
+103100: OK
+103477: OK
+103384: OK
+103102: OK
+103637: OK
+103865: OK
+101411 Ethernet/Network (Linux) :No
+103331: OK
+101455: OK
+100945 GPIO Alphanumeric to GPIO Numeric Assignment :No
+101400: OK
+103588: OK
+103479: OK
+103534: OK
+101625 How to Autorun application at the start up in Linux :No
+103400: OK
+103395: OK
+103561: OK
+103878: OK
+103780: OK
+103473: OK
+103307: OK
+103514: OK
+103489: OK
+103482: OK
+103486: OK
+103380: OK
+103377: OK
+103698: OK
+100873 Long Term Availability :No
+103567 Migrate from Iris V1.1 to V2.0 :No
+103629 Modem Support :No
+103106: OK
+103392: OK
+103402 Node-RED :No
+101653 OpenCV (Linux) :No
+103217: OK
+103199: OK
+103164 Partner Demo Container - Codesys :No
+103342: OK
+103589: OK
+103594: OK
+103551: OK
+103275 Production Programming for Linux :No
+103168: OK
+103475: OK
+103630: OK
+103157: OK
+103611: OK
+103391 Save Configuration from Atmel MaXTouch NVRAM to a File :No
+103346: OK
+103902: OK
+103459: OK
+103460 Splash Screen on Toradex Computer on Modules :No
+102182: OK
+103859: OK
+102698 Toradex Embedded Linux Support Strategy :No
+103601: OK
+103636: OK
+103602: OK
+103656: OK
+103654: OK
+103101: OK
+103595: OK
+103396: OK
+103650 TotalCross :No
+102900 Touch Screen Calibration (Linux) :No
+103592: OK
+103390: OK
+103111 Typographic Conventions for Torizon Documentation :No
+102951 Toradex’s Linux Images - How to setup the Wi-Fi interface for Access Point Mode :No
+103452 Toradex’s Linux Images - How to connect to a Wi-Fi network :No
+103401: OK
+102932 U-Boot fw-utils :No
+103612: OK
+103476: OK
+103406: OK
+103704: OK
+100687 Wi-Fi on Toradex Computer on Modules :No
+101448: OK
