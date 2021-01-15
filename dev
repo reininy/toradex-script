@@ -1,0 +1,25 @@
+#!/usr/bin/env python3
+
+import click
+from bot import bot
+
+@click.group()
+def main():
+    click.echo("Welcome to Toradex Developer CLI")
+
+@main.command()
+def torizonac():
+    """ shows available torizon documentation """
+    Bot = bot()
+    Bot.show_torizon_articles()
+
+@main.command()
+@click.argument('scrap')
+def scrap(scrap):
+    """ downloads an article from developer.toradex.com """
+    Bot = bot()
+    Bot.scrap(scrap)
+
+if __name__ == "__main__":
+    main()
+
