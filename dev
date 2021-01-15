@@ -20,6 +20,14 @@ def scrap(scrap):
     Bot = bot()
     Bot.scrap(scrap)
 
+@main.command()
+def updatedocs():
+    """ create a log about the torizon documentation """
+    Bot = bot()
+    titles, links = Bot.torizon_articles()
+    articles_ids = Bot.find_article(titles)
+    Bot.documentation_update(articles_ids)
+
 if __name__ == "__main__":
     main()
 
