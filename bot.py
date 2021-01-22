@@ -9,11 +9,12 @@ from selenium.common.exceptions import NoSuchElementException
 import os
 
 class bot():
+    PROGRAM_PATH = '/home/julio/projects/toradex-script/'
     warnings.filterwarnings('ignore')
     options = webdriver.ChromeOptions()
-    #options.add_argument('headless')
+    options.add_argument('headless')
     options.add_argument('window-size=1920x1080')
-    driver = webdriver.Chrome('/home/julio/projects/toradex-script/chromedriver', chrome_options=options)
+    driver = webdriver.Chrome(PROGRAM_PATH + 'chromedriver', chrome_options=options)
     file =  open('/home/julio/projects/toradex-script/settings.json', 'r')
     data = json.load(file)
     final_data = data['settings']
@@ -36,32 +37,37 @@ class bot():
             self.driver.find_element_by_xpath("//tr[@class='grid']//a[@title='"+article_name+"']").click()
             page_textbox = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
             page_text = page_textbox.text
-            file = open('./articles/' + article_name + ".md", "w")
+            file = open(self.PROGRAM_PATH + '/articles/' + article_name + ".md", "w")
             file.write(page_text)
             file.close()
             
             print(bcolors.OKGREEN + "File downloaded" + bcolors.ENDC) 
-            os.system('tree -t ')
+            os.system('tree -t' +  self.PROGRAM_PATH + '/articles')
 
         except NoSuchElementException:
             #article_names = table.find_elements_by_xpath('//tr[@class="grid]')
-
+            success = True
             print(bcolors.FAIL + "Article not found, did you mean?" + bcolors.ENDC)
 
             for name in self.driver.find_elements_by_xpath("//tr[@class='grid']"):
                 text = name.find_element_by_tag_name('a').text
                 print(bcolors.OKGREEN + text + bcolors.ENDC)
-            
-            article_name_retry = str(input('Please write one of the articles above:'))
-            self.driver.find_element_by_xpath("//tr[@class='grid']//a[@title='"+article_name_retry+"']").click()
-            page_textbox = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
+
+            while(success != None):
+                print('entrando no while')
+                article_name_retry = str(input('Please write one of the articles above:'))
+                try: 
+                    self.driver.find_element_by_xpath("//tr[@class='grid']//a[@title='"+article_name_retry+"']").click()
+                    page_textbox = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
+                    if (page_textbox != None): success = None
+                except: pass
+                    
             page_text = page_textbox.text
-            file = open('./articles/' + article_name_retry + ".md", "w")
+            file = open(self.PROGRAM_PATH + '/articles/' + article_name_retry + ".md", "w")
             file.write(page_text)
             file.close()
-
             print(bcolors.OKGREEN + "File downloaded" + bcolors.ENDC) 
-            os.system('tree -t ')
+            os.system('tree -t' +  self.PROGRAM_PATH + '/articles')
 
     def torizon_articles(self):
         self.driver.get("https://developer.toradex.com/knowledge-base?tags=101691&cond=and")
@@ -85,6 +91,7 @@ class bot():
 
     def show_torizon_articles(self):
         titles, links = self.torizon_articles()
+        print( str(len(titles)) +  " torizon articles found ✅")
         for elem, link in zip(titles, links):
             print(elem, link)
 
@@ -113,12 +120,17 @@ class bot():
         return articles_ids
 
     def documentation_update(self, articles_ids):
-        self.driver.get("https://developer1.toradex.com/acp/content/post/update?id=103348&rev=93") ## torizon documentation page
-        content = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
-        html = content.get_attribute("innerHTML")
-        articles_str = ""
+        torizon_documentation = ['103953', '103952', '103951', '103950', '103349', '103703', '103954', '103940', '103941', '103942', '103943', '103944', '103945', '103946', '103947', '103948', '103949', '103955']
+        torizon_documentation_merge = ''
+        for id in torizon_documentation:
+            self.driver.get('https://developer1.toradex.com/acp/content/post/update?id='+id)
+            content = self.driver.find_element_by_xpath('//*[@id="post-content_text"]')
+            html = content.get_attribute("innerHTML")
+            torizon_documentation_merge+= html
+
+        articles_str = "" # declare string to create text file
         for id in articles_ids:
-            if id in html:
+            if id in torizon_documentation_merge:
                 print(id + bcolors.OKGREEN + ": OK" + bcolors.ENDC)
                 articles_str+= id + ": OK" + "\n"
             else:
@@ -133,11 +145,11 @@ class bot():
             opt = str(input("Do you want to save logs? y/n:"))
             if opt == "y":
                 file_name = input("Name for the log: ")
-                f = open("/home/julio/projects/toradex-script/logs/"+file_name+".txt", "w")
+                f = open(self.PROGRAM_PATH + "/logs/"+file_name+".txt", "w")
                 f.write(articles_str)
                 f.close()
                 print(file_name + " created!")
-                os.system('tree -t /home/julio/projects/toradex-script/logs/')
+                os.system('tree -t ' +self.PROGRAM_PATH + '/logs/')
                 opt = None
                 self.driver.close()
             elif opt == 'n':
@@ -148,11 +160,6 @@ class bot():
                 print("wrong option")
     
 
-if __name__ == "__main__":
-    bot = bot()
-    titles, links = bot.torizon_articles()
-    articles_ids = bot.find_article(titles)
-    bot.DocumentationUpdate(articles_ids)
 
 
 
